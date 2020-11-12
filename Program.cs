@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using CoreApi.Models;
 
 namespace CoreApi
 {
@@ -13,7 +15,18 @@ namespace CoreApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            //2. Find the service layer within our scope.
+            using (var scope = host.Services.CreateScope())
+            {
+                
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<TodoContext>();
+                DataGenerator.Initialize(services);
+            }
+            host.Run();
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
