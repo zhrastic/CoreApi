@@ -21,6 +21,9 @@ namespace CoreApi.Controllers
         }
 
         // GET: api/TodoItems
+        /// <summary>
+        /// Vraća SVE TODO Iteme.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
